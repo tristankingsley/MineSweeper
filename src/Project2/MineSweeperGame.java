@@ -92,9 +92,12 @@ public class MineSweeperGame {
 
             for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
                 for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+					if(calcCounter(r,c) == 0)
+						board[r][c].setProx("");
+					else
+                		board[r][c].setProx("" + calcCounter(r , c));
 
-                	board[r][c].setProx("" + calcCounter(r , c));
-                    board[r][c].setExposed(true);
+					board[r][c].setExposed(true);
 
                 }
         }
