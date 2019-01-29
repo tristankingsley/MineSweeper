@@ -6,6 +6,11 @@ public class Cell {
     private boolean isMine;
     private boolean test;
 
+    int boundup = 0;
+    int bounddown = 0;
+    int boundleft = 0;
+    int boundright = 0;
+
     public String getProx() {
         return prox;
     }
