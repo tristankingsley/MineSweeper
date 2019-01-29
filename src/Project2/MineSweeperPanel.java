@@ -53,7 +53,7 @@ public class MineSweeperPanel extends JPanel {
 			for (int c = 0; c < 10; c++) {
 				iCell = game.getCell(r, c);
 
-				board[r][c].setText("");
+				board[r][c].setText(iCell.getProx());
 
 				// readable, ifs are verbose
 					

@@ -13,11 +13,7 @@ public class MineSweeperGame {
 		setEmpty();
 		layMines (7);
 
-		for (int r = board.length; r <= 0; r--)
-			for (int c = board[r].length; c <= 0; c--){
-				setBounds(r,c);
-				setUpCount(r,c);
-				}
+		//for(int row = )
 		
 	}
 
@@ -33,7 +29,7 @@ public class MineSweeperGame {
 
 	public void select(int row, int col) {
 		board[row][col].setExposed(true);
-        zeroExpose(row,col);
+        proximity(row,col);
 
 		if (board[row][col].isMine())   // did I lose
 			status = GameStatus.Lost;
@@ -45,10 +41,6 @@ public class MineSweeperGame {
 		}
 	}
 
-	private void setUpCount(int row, int col){
-
-	}
-
 	public boolean allFound(){
 	    for (int r = 0; r < 10; r++)
 	        for (int c = 0; c < 10; c++)
@@ -57,38 +49,7 @@ public class MineSweeperGame {
         return true;
     }
 
-    public void setBounds(int row, int col){
-
-		board[row][col];
-
-		if(row == 0){
-			boundup = 0;
-			bounddown = 1;
-		}
-		else if (row == 9){
-			boundup = 1;
-			bounddown = 0;
-		}
-		else{
-			boundup = 1;
-			bounddown = 1;
-		}
-
-		if(col == 0){
-			boundleft = 0;
-			boundright = 1;
-		}
-		else if (col == 9){
-			boundleft = 1;
-			boundright = 0;
-		}
-		else{
-			boundleft = 1;
-			boundright = 1;
-		}
-	}
-
-    public void zeroExpose(int row, int col){
+    public void proximity(int row, int col){
         int boundright = 1;
         int boundleft = 1;
         int boundup = 1;
