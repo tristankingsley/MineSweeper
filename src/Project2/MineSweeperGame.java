@@ -12,8 +12,7 @@ public class MineSweeperGame {
 		board = new Cell[10][10];
 		setEmpty();
 		layMines (7);
-
-		//for(int row = )
+		setBounds();
 		
 	}
 
@@ -49,55 +48,52 @@ public class MineSweeperGame {
         return true;
     }
 
+    public void setBounds(){
+		for (int r = 0; r < 10; r++)
+			for(int c = 0; c < 10; c++){
+				if(r == 0){
+					board[r][c].boundup = 0;
+				}
+				else if (r == 9) {
+					board[r][c].bounddown = 0;
+				}
+				if(c == 0){
+					board[r][c].boundleft = 0;
+				}
+				else if (c == 9){
+					board[r][c].boundright = 0;
+				}
+			}
+	}
+
+    public int calcCounter(int row, int col){
+		int count = 0;
+
+		Cell iCell = board[row][col];
+
+		for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+			for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++)
+				if(board[r][c].isMine())
+					count++;
+
+		return count;
+	}
+
     public void proximity(int row, int col){
-        int boundright = 1;
-        int boundleft = 1;
-        int boundup = 1;
-        int bounddown = 1;
+		Cell iCell = board[row][col];
 
-        int counter = 0;
 
-        if(row == 0){
-            boundup = 0;
-            bounddown = 1;
-        }
-        else if (row == 9){
-            boundup = 1;
-            bounddown = 0;
-        }
-        else{
-            boundup = 1;
-            bounddown = 1;
-        }
 
-        if(col == 0){
-            boundleft = 0;
-            boundright = 1;
-        }
-        else if (col == 9){
-            boundleft = 1;
-            boundright = 0;
-        }
-        else{
-            boundleft = 1;
-            boundright = 1;
-        }
-
-	    for (int r = row - boundup; r <= row + bounddown; r++)
-            for (int c = col - boundleft; c <= col + boundright; c++)
-                if(board[r][c].isMine()) {
-                    counter++;
-                }
-
-        if (!board[row][col].isMine() && counter != 0) {
-            board[row][col].setProx("" + counter);
+        if (!iCell.isMine() && calcCounter(row, col) != 0) {
+            iCell.setProx("" + calcCounter(row, col));
         }
         else {
             board[row][col].setProx("");
 
-            for (int r = row - boundup; r <= row + bounddown; r++)
-                for (int c = col - boundleft; c <= col + boundright; c++) {
+            for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+                for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
 
+                	board[r][c].setProx("" + calcCounter(r , c));
                     board[r][c].setExposed(true);
 
                 }
