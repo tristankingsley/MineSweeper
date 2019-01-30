@@ -5,6 +5,8 @@ public class Cell {
     private boolean isExposed;
     private boolean isMine;
     private boolean test;
+    private boolean isFlagged;
+    private boolean setFlag;
 
     public String getProx() {
         return prox;
