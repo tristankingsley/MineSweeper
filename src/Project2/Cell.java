@@ -5,6 +5,7 @@ public class Cell {
     private boolean isExposed;
     private boolean isMine;
     private boolean test;
+    private boolean isFlagged;
 
     int boundup = 1;
     int bounddown = 1;
@@ -42,5 +43,12 @@ public class Cell {
         isMine = mine;
     }
 
+    public boolean isFlagged(){
+        return isFlagged;
+    }
+
+    public void setFlagged(boolean flagged){
+        isFlagged = flagged;
+    }
 
 }
