@@ -27,18 +27,17 @@ public class MineSweeperGame {
 	}
 
 	public void select(int row, int col) {
-		if(!board[row][col].isFlagged()) {
-			board[row][col].setExposed(true);
+		Cell iCell = board[row][col];
+		if(!iCell.isFlagged() && !iCell.isExposed()) {
+			iCell.setExposed(true);
 
-			if(calcCounter(row, col) == 0) {
-                upleft(row, col);
-            }
-
-			//only uncomment one if statement at a time. Otherwise kaboom
-//            if(calcCounter(row, col) == 0){
-//                downRight(row,col);
-//            }
-
+				if(calcCounter(row, col) == 0) {
+					for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+						for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+							if (!board[r][c].isMine())
+								select(r,c);
+						}
+				}
 
 			if (board[row][col].isMine())   // did I lose
 				status = GameStatus.Lost;
@@ -95,30 +94,6 @@ public class MineSweeperGame {
 		return count;
 	}
 
-	public void upleft(int row, int col) {
-        Cell iCell = board[row][col];
-        if (!board[row][col].isMine()) {
-
-            if (row > 0) {
-                select(row - iCell.boundup, col);
-            }
-            if (col > 0) {
-                select(row, col - iCell.boundleft);
-            }
-        }
-    }
-    public void downRight(int row, int col) {
-        Cell iCell = board[row][col];
-        if (!board[row][col].isMine()) {
-            if (row < 9)
-                select(row + iCell.bounddown, col);
-        }
-        if (col < 9) {
-            select(row, col + iCell.boundright);
-        }
-
-    }
-
 	public GameStatus getGameStatus() {
 		return status;
 	}
@@ -145,8 +120,3 @@ public class MineSweeperGame {
 		}
 	}
 }
-
-
-
-
-//  a non-recursive from .... it would be much easier to use recursion
