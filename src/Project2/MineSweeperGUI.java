@@ -10,7 +10,7 @@ public class MineSweeperGUI {
 		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		MineSweeperPanel panel = new MineSweeperPanel();
 		frame.getContentPane().add(panel);
-		frame.setSize(400, 400);
+		frame.setSize(800, 500);
 		frame.setVisible(true);
 	}
 }

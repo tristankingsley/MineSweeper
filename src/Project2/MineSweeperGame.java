@@ -27,6 +27,14 @@ public class MineSweeperGame {
 	}
 
 	public void select(int row, int col) {
+		if (board[row][col].isFlagged()) {
+			board[row][col].setExposed(true);
+			proximity(row, col);
+		}
+		if (board[row][col].isFlagged() && board[row][col].isMine()){
+			board[row][col].setExposed(false);
+			status = GameStatus.Lost;
+		}
 		if(!board[row][col].isFlagged()) {
 			board[row][col].setExposed(true);
 			proximity(row, col);
@@ -80,21 +88,22 @@ public class MineSweeperGame {
 		return count;
 	}
 
-    public void proximity(int row, int col){
+    public void proximity(int row, int col) {
 		Cell iCell = board[row][col];
 
-
-
-        if (!iCell.isMine() && calcCounter(row, col) != 0) {
-            iCell.setProx("" + calcCounter(row, col));
-        }
-        else {
+		if (iCell.isFlagged() && (calcCounter(row, col) != 0 || calcCounter(row, col) == 0)) {
+			iCell.setProx("FLAG");
+		} else if (!iCell.isMine() && calcCounter(row, col) != 0) {
+			iCell.setProx("" + calcCounter(row, col));
+		} else {
             board[row][col].setProx("");
 
             for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
                 for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
-					if(calcCounter(r,c) == 0)
+					if(calcCounter(r,c) == 0 && !board[r][c].isFlagged())
 						board[r][c].setProx("");
+					else if (board[r][c].isFlagged())
+						board[r][c].setProx("FLAG");
 					else
 						board[r][c].setProx("" + calcCounter(r, c));
 
