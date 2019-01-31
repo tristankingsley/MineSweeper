@@ -64,6 +64,12 @@ public class MineSweeperGame {
 				else if (c == 9){
 					board[r][c].boundright = 0;
 				}
+
+				if(calcCounter(r,c) == 0 || board[r][c].isMine())
+					board[r][c].setProx("");
+				else
+					board[r][c].setProx("" + calcCounter(r, c));
+
 			}
 	}
 
@@ -83,21 +89,11 @@ public class MineSweeperGame {
 	public void proximity(int row, int col){
 		Cell iCell = board[row][col];
 
+		Cell [][] toExpose = new Cell[3][3];
 
-
-		if (!iCell.isMine() && calcCounter(row, col) != 0) {
-			iCell.setProx("" + calcCounter(row, col));
-		}
-		else {
-			board[row][col].setProx("");
-
+		if(calcCounter(row, col) == 0){
 			for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 				for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
-					if(calcCounter(r,c) == 0)
-						board[r][c].setProx("");
-					else
-						board[r][c].setProx("" + calcCounter(r, c));
-
 					board[r][c].setExposed(true);
 				}
 		}
