@@ -13,7 +13,7 @@ public class MineSweeperGame {
 		setEmpty();
 		layMines (7);
 		setBounds();
-		
+
 	}
 
 	private void setEmpty() {
@@ -27,14 +27,6 @@ public class MineSweeperGame {
 	}
 
 	public void select(int row, int col) {
-		if (board[row][col].isFlagged()) {
-			board[row][col].setExposed(true);
-			proximity(row, col);
-		}
-		if (board[row][col].isFlagged() && board[row][col].isMine()){
-			board[row][col].setExposed(false);
-			status = GameStatus.Lost;
-		}
 		if(!board[row][col].isFlagged()) {
 			board[row][col].setExposed(true);
 			proximity(row, col);
@@ -50,14 +42,14 @@ public class MineSweeperGame {
 	}
 
 	public boolean allFound(){
-	    for (int r = 0; r < 10; r++)
-	        for (int c = 0; c < 10; c++)
-	            if(!board[r][c].isExposed() && !board[r][c].isMine())
-	                return false;
-        return true;
-    }
+		for (int r = 0; r < 10; r++)
+			for (int c = 0; c < 10; c++)
+				if(!board[r][c].isExposed() && !board[r][c].isMine())
+					return false;
+		return true;
+	}
 
-    public void setBounds(){
+	public void setBounds(){
 		for (int r = 0; r < 10; r++)
 			for(int c = 0; c < 10; c++){
 				if(r == 0){
@@ -75,7 +67,7 @@ public class MineSweeperGame {
 			}
 	}
 
-    public int calcCounter(int row, int col){
+	public int calcCounter(int row, int col){
 		int count = 0;
 
 		Cell iCell = board[row][col];
@@ -88,29 +80,28 @@ public class MineSweeperGame {
 		return count;
 	}
 
-    public void proximity(int row, int col) {
+	public void proximity(int row, int col){
 		Cell iCell = board[row][col];
 
-		if (iCell.isFlagged() && (calcCounter(row, col) != 0 || calcCounter(row, col) == 0)) {
-			iCell.setProx("FLAG");
-		} else if (!iCell.isMine() && calcCounter(row, col) != 0) {
-			iCell.setProx("" + calcCounter(row, col));
-		} else {
-            board[row][col].setProx("");
 
-            for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
-                for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
-					if(calcCounter(r,c) == 0 && !board[r][c].isFlagged())
+
+		if (!iCell.isMine() && calcCounter(row, col) != 0) {
+			iCell.setProx("" + calcCounter(row, col));
+		}
+		else {
+			board[row][col].setProx("");
+
+			for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+				for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+					if(calcCounter(r,c) == 0)
 						board[r][c].setProx("");
-					else if (board[r][c].isFlagged())
-						board[r][c].setProx("FLAG");
 					else
 						board[r][c].setProx("" + calcCounter(r, c));
 
 					board[r][c].setExposed(true);
-                }
-        }
-    }
+				}
+		}
+	}
 
 	public GameStatus getGameStatus() {
 		return status;
@@ -142,6 +133,4 @@ public class MineSweeperGame {
 
 
 
-	//  a non-recursive from .... it would be much easier to use recursion
-
-
+//  a non-recursive from .... it would be much easier to use recursion
