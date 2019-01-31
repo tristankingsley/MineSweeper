@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MineSweeperPanel extends JPanel {
 
@@ -22,6 +24,8 @@ public class MineSweeperPanel extends JPanel {
 		// create game, listeners
 		ButtonListener listener = new ButtonListener();
 
+		MyMouseListener mouse = new MyMouseListener();
+
 		game = new MineSweeperGame();
 
 		// create the board
@@ -32,6 +36,7 @@ public class MineSweeperPanel extends JPanel {
 			for (int col = 0; col < 10; col++) {
 				board[row][col] = new JButton("");
 				board[row][col].addActionListener(listener);
+				board[row][col].addMouseListener(mouse);
 				center.add(board[row][col]);
 			}
 
@@ -53,13 +58,16 @@ public class MineSweeperPanel extends JPanel {
 			for (int c = 0; c < 10; c++) {
 				iCell = game.getCell(r, c);
 
-				board[r][c].setText(iCell.getProx());
+				//board[r][c].setText(iCell.getProx());
 
 				// readable, ifs are verbose
-					
-				if (iCell.isMine())
-					board[r][c].setText("!");
 
+				if(iCell.isFlagged())
+					board[r][c].setText("FLAG");
+				if (iCell.isMine() && !iCell.isFlagged())
+					board[r][c].setText("!");
+				if (!iCell.isMine() && !iCell.isFlagged())
+					board[r][c].setText("");
 				if (iCell.isExposed()) {
 					board[r][c].setEnabled(false);
 					board[r][c].setText(iCell.getProx());
@@ -98,6 +106,51 @@ public class MineSweeperPanel extends JPanel {
 
 		}
 
+	}
+
+	private class MyMouseListener implements MouseListener {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			for (int r = 0; r < 10; r++) {
+				for (int c = 0; c < 10; c++) {
+					if (e.getSource() == board[r][c] && e.getButton() == MouseEvent.BUTTON3) {
+						if (!game.getCell(r, c).isFlagged() && (!game.getCell(r,c).isMine() || game.getCell(r,c).isMine())) {
+							board[r][c].setText("FLAG");
+							game.getCell(r, c).setFlagged(true);
+							game.getCell(r, c).setExposed(false);
+						} else if (game.getCell(r, c).isFlagged() && game.getCell(r,c).isMine()) {
+							board[r][c].setText("!");
+							game.getCell(r, c).setExposed(false);
+							game.getCell(r, c).setFlagged(false);
+						} else if (game.getCell(r,c).isFlagged() && !game.getCell(r,c).isMine()){
+							board[r][c].setText("");
+							game.getCell(r, c).setExposed(false);
+							game.getCell(r, c).setFlagged(false);
+						}
+					}
+				}
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+
+		}
 	}
 
 }
