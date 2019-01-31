@@ -11,7 +11,7 @@ public class MineSweeperGUI {
 		MineSweeperPanel panel = new MineSweeperPanel();
 		frame.setJMenuBar(panel.addMenuBar());
 		frame.getContentPane().add(panel);
-		frame.setSize(400, 400);
+		frame.setSize(800, 500);
 		frame.setVisible(true);
 	}
 }
