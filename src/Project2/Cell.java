@@ -1,6 +1,5 @@
 package Project2;
 
-
 public class Cell {
     private boolean isExposed;
     private boolean isMine;

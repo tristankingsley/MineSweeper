@@ -62,8 +62,10 @@ public class MineSweeperPanel extends JPanel {
 
 				// readable, ifs are verbose
 
-				if(iCell.isFlagged())
+				if(iCell.isFlagged()) {
+					board[r][c].setEnabled(false);
 					board[r][c].setText("FLAG");
+				}
 				if (iCell.isMine() && !iCell.isFlagged())
 					board[r][c].setText("!");
 				if (!iCell.isMine() && !iCell.isFlagged())

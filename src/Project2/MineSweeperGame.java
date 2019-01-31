@@ -27,16 +27,17 @@ public class MineSweeperGame {
 	}
 
 	public void select(int row, int col) {
-		board[row][col].setExposed(true);
-        proximity(row,col);
+		if(!board[row][col].isFlagged()) {
+			board[row][col].setExposed(true);
+			proximity(row, col);
 
-		if (board[row][col].isMine())   // did I lose
-			status = GameStatus.Lost;
-		else if(!allFound()){
-		    status = GameStatus.NotOverYet;
-            }
-		else {
-			status = GameStatus.WON;    // did I win
+			if (board[row][col].isMine())   // did I lose
+				status = GameStatus.Lost;
+			else if (!allFound()) {
+				status = GameStatus.NotOverYet;
+			} else {
+				status = GameStatus.WON;    // did I win
+			}
 		}
 	}
 
@@ -95,10 +96,9 @@ public class MineSweeperGame {
 					if(calcCounter(r,c) == 0)
 						board[r][c].setProx("");
 					else
-                		board[r][c].setProx("" + calcCounter(r , c));
+						board[r][c].setProx("" + calcCounter(r, c));
 
 					board[r][c].setExposed(true);
-
                 }
         }
     }
