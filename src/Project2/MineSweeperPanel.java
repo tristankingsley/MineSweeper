@@ -10,6 +10,13 @@ import java.awt.event.MouseListener;
 
 public class MineSweeperPanel extends JPanel {
 
+	private JMenuBar menus;
+	private JMenu file;
+	private JMenuItem newGameItem;
+	private JMenuItem resizeItem;
+	private JMenuItem quitItem;
+
+
 	private JButton[][] board;
 	private JButton butQuit;
 	private Cell iCell;
@@ -51,6 +58,47 @@ public class MineSweeperPanel extends JPanel {
 
 	}
 
+	public JMenuBar addMenuBar(){
+		menus = new JMenuBar();
+
+		file = new JMenu("File");
+		menus.add(file);
+
+		newGameItem = new JMenuItem("New Game");
+		file.add(newGameItem);
+		newGameItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.reset();
+				displayBoard();
+			}
+		});
+
+		resizeItem = new JMenuItem("Board Size");
+		file.add(resizeItem);
+		resizeItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resize();
+			}
+		});
+
+		quitItem = new JMenuItem("Quit");
+		file.add(quitItem);
+		quitItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
+		return menus;
+	}
+
+	private void resize(){
+		JOptionPane.showInputDialog(null,"How many spaces tall?");
+		JOptionPane.showInputDialog(null, "How many spaces wide?");
+	}
 
 	private void displayBoard() {
 
@@ -58,14 +106,6 @@ public class MineSweeperPanel extends JPanel {
 			for (int c = 0; c < 10; c++) {
 				iCell = game.getCell(r, c);
 
-				//board[r][c].setText(iCell.getProx());
-
-				// readable, ifs are verbose
-
-				if(iCell.isFlagged()) {
-
-					board[r][c].setText("FLAG");
-				}
 				if (iCell.isMine() && !iCell.isFlagged())
 					board[r][c].setText("!");
 				if (!iCell.isMine() && !iCell.isFlagged())
@@ -94,7 +134,6 @@ public class MineSweeperPanel extends JPanel {
 			if (game.getGameStatus() == GameStatus.Lost) {
 				displayBoard();
 				JOptionPane.showMessageDialog(null, "You Lose \n The game will reset");
-				//exposeMines = false;
 				game.reset();
 				displayBoard();
 
@@ -127,16 +166,13 @@ public class MineSweeperPanel extends JPanel {
 				for (int c = 0; c < 10; c++) {
 					if (e.getSource() == board[r][c] && e.getButton() == MouseEvent.BUTTON3) {
 						if (!game.getCell(r, c).isFlagged() && (!game.getCell(r,c).isMine() || game.getCell(r,c).isMine())) {
-							board[r][c].setText("FLAG");
+							board[r][c].setText("F");
 							game.getCell(r, c).setFlagged(true);
-							game.getCell(r, c).setExposed(false);
 						} else if (game.getCell(r, c).isFlagged() && game.getCell(r,c).isMine()) {
 							board[r][c].setText("!");
-							game.getCell(r, c).setExposed(false);
 							game.getCell(r, c).setFlagged(false);
 						} else if (game.getCell(r,c).isFlagged() && !game.getCell(r,c).isMine()){
 							board[r][c].setText("");
-							game.getCell(r, c).setExposed(false);
 							game.getCell(r, c).setFlagged(false);
 						}
 					}
