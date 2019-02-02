@@ -25,6 +25,7 @@ public class MineSweeperPanel extends JPanel {
 
 	public MineSweeperPanel() {
 
+
 		JPanel bottom = new JPanel();
 		JPanel center = new JPanel();
 
@@ -165,7 +166,7 @@ public class MineSweeperPanel extends JPanel {
 			for (int r = 0; r < 10; r++) {
 				for (int c = 0; c < 10; c++) {
 					if (e.getSource() == board[r][c] && e.getButton() == MouseEvent.BUTTON3) {
-						if (!game.getCell(r, c).isFlagged() && (!game.getCell(r,c).isMine() || game.getCell(r,c).isMine())) {
+						if (!game.getCell(r, c).isFlagged()) {
 							board[r][c].setText("F");
 							game.getCell(r, c).setFlagged(true);
 						} else if (game.getCell(r, c).isFlagged() && game.getCell(r,c).isMine()) {
