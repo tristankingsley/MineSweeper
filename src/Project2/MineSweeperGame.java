@@ -143,31 +143,54 @@ public class MineSweeperGame {
 
 	private void resize() {
 		inputRow = JOptionPane.showInputDialog(null, "How many rows would you like?");
-		inputCol = JOptionPane.showInputDialog(null, "How many columns would you like?");
-		inputMineCount = JOptionPane.showInputDialog(null, "How many mines would you like?");
 
-		if (inputRow.length() > 0) {
-			boardRow = Integer.parseInt(inputRow);
-		} else if (inputRow.equals("")){
-			boardRow = 10;
-		} else {
-			boardRow = 10;
+		if(inputRow == null){
+			System.exit(0);
 		}
 
+		inputCol = JOptionPane.showInputDialog(null, "How many columns would you like?");
+
+		if(inputCol == null)
+			System.exit(0);
+
+		inputMineCount = JOptionPane.showInputDialog(null, "How many mines would you like?");
+
+		if(inputMineCount == null)
+			System.exit(0);
+
+		if (inputRow.length() > 0) {
+			try {
+				boardRow = Integer.parseInt(inputRow);
+				if(boardRow > 30 || boardRow < 3)
+					throw new IllegalArgumentException();
+			}
+			catch (IllegalArgumentException e) {
+				boardRow = 10;
+			}
+		}
+
+
 		if (inputCol.length() > 0){
-			boardCol = Integer.parseInt(inputCol);
-		} else if ( inputCol.equals("")){
-			boardCol = 10;
-		} else {
-			boardCol = 10;
+			try{
+				boardCol = Integer.parseInt(inputCol);
+				if(boardCol > 30 || boardCol < 3)
+					throw new IllegalArgumentException();
+			}
+			catch(IllegalArgumentException e){
+				boardCol = 10;
+			}
 		}
 
 		if (inputMineCount.length() > 0){
-			mineCount = Integer.parseInt(inputMineCount);
-		} else if (inputMineCount.equals("")){
-			mineCount = 10;
-		} else {
-			mineCount = 10;
+			try{
+				mineCount = Integer.parseInt(inputMineCount);
+				if(mineCount > (boardRow * boardCol) - 1|| mineCount < 1)
+					throw new IllegalArgumentException();
+			}
+			catch(IllegalArgumentException e){
+				mineCount = 10;
+			}
 		}
+
 	}
 }
