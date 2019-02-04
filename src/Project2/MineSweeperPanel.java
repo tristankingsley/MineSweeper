@@ -37,11 +37,11 @@ public class MineSweeperPanel extends JPanel {
 		game = new MineSweeperGame();
 
 		// create the board
-		center.setLayout(new GridLayout(10, 10));
-		board = new JButton[10][10];
+		center.setLayout(new GridLayout(game.getBoardRow(), game.getBoardCol()));
+		board = new JButton[game.getBoardRow()][game.getBoardCol()];
 
-		for (int row = 0; row < 10; row++)
-			for (int col = 0; col < 10; col++) {
+		for (int row = 0; row < game.getBoardRow(); row++)
+			for (int col = 0; col < game.getBoardCol(); col++) {
 				board[row][col] = new JButton("");
 				board[row][col].addActionListener(listener);
 				board[row][col].addMouseListener(mouse);
@@ -80,7 +80,8 @@ public class MineSweeperPanel extends JPanel {
 		resizeItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				resize();
+				game.reset();
+				resizeBoard();
 			}
 		});
 
@@ -96,15 +97,11 @@ public class MineSweeperPanel extends JPanel {
 		return menus;
 	}
 
-	private void resize(){
-		JOptionPane.showInputDialog(null,"How many spaces tall?");
-		JOptionPane.showInputDialog(null, "How many spaces wide?");
-	}
 
 	private void displayBoard() {
 
-		for (int r = 0; r < 10; r++)
-			for (int c = 0; c < 10; c++) {
+		for (int r = 0; r < game.getBoardRow(); r++)
+			for (int c = 0; c < game.getBoardCol(); c++) {
 				iCell = game.getCell(r, c);
 
 				if (iCell.isMine() && !iCell.isFlagged())
@@ -120,13 +117,23 @@ public class MineSweeperPanel extends JPanel {
 			}
 	}
 
+	private void resizeBoard() {
+		for (int row = 0; row < board.length; row++)
+			for (int col = 0; col < board[row].length; col++) {
+				if (row > game.getBoardRow() || col > game.getBoardCol()) {
+					this.remove(board[row][col]);
+					board[row][col].remove(this);
+				}
+
+			}
+	}
 
 	private class ButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 
-			for (int r = 0; r < 10; r++)
-				for (int c = 0; c < 10; c++)
+			for (int r = 0; r < game.getBoardRow(); r++)
+				for (int c = 0; c < game.getBoardCol(); c++)
 					if (board[r][c] == e.getSource())
 						game.select(r, c);
 
@@ -163,8 +170,8 @@ public class MineSweeperPanel extends JPanel {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			for (int r = 0; r < 10; r++) {
-				for (int c = 0; c < 10; c++) {
+			for (int r = 0; r < game.getBoardRow(); r++) {
+				for (int c = 0; c < game.getBoardCol(); c++) {
 					if (e.getSource() == board[r][c] && e.getButton() == MouseEvent.BUTTON3) {
 						if (!game.getCell(r, c).isFlagged()) {
 							board[r][c].setText("F");
