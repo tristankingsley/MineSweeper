@@ -50,14 +50,51 @@ public class MineSweeperGame {
 		Cell iCell = board[row][col];
 		if(!iCell.isFlagged() && !iCell.isExposed()) {
 			iCell.setExposed(true);
+//
+//			if (calcCounter(row, col) == 0) {
+//					for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+//						for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+//							if (!board[r][c].isMine())
+//								select(r,c);
+//						}
+//				}
 
-			if (calcCounter(row, col) == 0) {
-					for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
-						for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
-							if (!board[r][c].isMine())
-								select(r,c);
-						}
-				}
+			int temprow = row;
+			int tempcol = col;
+
+			while( temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
+
+				board[temprow][tempcol].setExposed(true);
+				temprow++;
+			}
+			temprow--;
+
+			while(tempcol < boardCol && calcCounter(temprow, tempcol) == 0){
+
+				board[temprow][tempcol].setExposed(true);
+				tempcol++;
+			}
+
+			tempcol--;
+
+			while(temprow > 0 && calcCounter(temprow , tempcol) == 0) {
+
+				board[temprow][tempcol].setExposed(true);
+				temprow--;
+			}
+
+			temprow++;
+
+			while(tempcol > 0 && calcCounter(temprow, tempcol) == 0){
+
+				board[temprow][tempcol].setExposed(true);
+				tempcol--;
+			}
+
+			tempcol++;
+
+
+
 		}
 
 		if (board[row][col].isMine())   // did I lose
