@@ -37,11 +37,11 @@ public class MineSweeperPanel extends JPanel {
 		game = new MineSweeperGame();
 
 		// create the board
-		center.setLayout(new GridLayout(game.getBoardRow(), game.getBoardCol()));
-		board = new JButton[game.getBoardRow()][game.getBoardCol()];
+		center.setLayout(new GridLayout(30, 30));
+		board = new JButton[30][30];
 
-		for (int row = 0; row < game.getBoardRow(); row++)
-			for (int col = 0; col < game.getBoardCol(); col++) {
+		for (int row = 0; row < 30; row++)
+			for (int col = 0; col < 30; col++) {
 				board[row][col] = new JButton("");
 				board[row][col].addActionListener(listener);
 				board[row][col].addMouseListener(mouse);
@@ -80,8 +80,9 @@ public class MineSweeperPanel extends JPanel {
 		resizeItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				game.resize();
 				game.reset();
-				resizeBoard();
+				displayBoard();
 			}
 		});
 
@@ -100,9 +101,17 @@ public class MineSweeperPanel extends JPanel {
 
 	private void displayBoard() {
 
+		for(int r = 0; r < 30; r++) {
+			for (int c = 0; c < 30; c++)
+				board[r][c].setVisible(false);
+		}
+
+
 		for (int r = 0; r < game.getBoardRow(); r++)
 			for (int c = 0; c < game.getBoardCol(); c++) {
 				iCell = game.getCell(r, c);
+
+				board[r][c].setVisible(true);
 
 				if (iCell.isMine() && !iCell.isFlagged())
 					board[r][c].setText("!");
@@ -111,8 +120,7 @@ public class MineSweeperPanel extends JPanel {
 				if (iCell.isExposed()) {
 					board[r][c].setEnabled(false);
 					board[r][c].setText(iCell.getProx());
-				}
-				else
+				} else
 					board[r][c].setEnabled(true);
 			}
 	}

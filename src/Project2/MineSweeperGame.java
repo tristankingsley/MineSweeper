@@ -51,22 +51,21 @@ public class MineSweeperGame {
 		if(!iCell.isFlagged() && !iCell.isExposed()) {
 			iCell.setExposed(true);
 
-				if(calcCounter(row, col) == 0) {
+			if (calcCounter(row, col) == 0) {
 					for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 						for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
 							if (!board[r][c].isMine())
 								select(r,c);
 						}
 				}
-
-			if (board[row][col].isMine())   // did I lose
-				status = GameStatus.Lost;
-			else if (!allFound()) {
-				status = GameStatus.NotOverYet;
-			} else {
-				status = GameStatus.WON;    // did I win
-			}
 		}
+
+		if (board[row][col].isMine())   // did I lose
+			status = GameStatus.Lost;
+		else if (!allFound())
+			status = GameStatus.NotOverYet;
+		else
+			status = GameStatus.WON;    // did I win
 	}
 
 	public boolean allFound(){
@@ -119,8 +118,8 @@ public class MineSweeperGame {
 	}
 
 	public void reset() {
-		resize();
 		status = GameStatus.NotOverYet;
+		board = new Cell[boardRow][boardCol];
 		setEmpty();
 		layMines (mineCount);
 		setBounds();
@@ -141,7 +140,7 @@ public class MineSweeperGame {
 		}
 	}
 
-	private void resize() {
+	public void resize() {
 		inputRow = JOptionPane.showInputDialog(null, "How many rows would you like?");
 
 		if(inputRow == null){
@@ -158,33 +157,40 @@ public class MineSweeperGame {
 		if(inputMineCount == null)
 			System.exit(0);
 
-		if (inputRow.length() > 0) {
-			try {
-				boardRow = Integer.parseInt(inputRow);
-				if(boardRow > 30 || boardRow < 3)
+
+		try {
+				if (inputRow.length() > 0) {
+					boardRow = Integer.parseInt(inputRow);
+					if(boardRow > 30 || boardRow < 3)
 					throw new IllegalArgumentException();
 			}
-			catch (IllegalArgumentException e) {
-				boardRow = 10;
-			}
+				else
+					throw new IllegalArgumentException();
+		}
+		catch (IllegalArgumentException e) {
+			boardRow = 10;
 		}
 
-
-		if (inputCol.length() > 0){
-			try{
+		try {
+			if (inputCol.length() > 0) {
 				boardCol = Integer.parseInt(inputCol);
-				if(boardCol > 30 || boardCol < 3)
+				if (boardCol > 30 || boardCol < 3)
 					throw new IllegalArgumentException();
 			}
-			catch(IllegalArgumentException e){
+			else
+				throw new IllegalArgumentException();
+		}
+		catch(IllegalArgumentException e){
 				boardCol = 10;
 			}
-		}
 
-		if (inputMineCount.length() > 0){
-			try{
-				mineCount = Integer.parseInt(inputMineCount);
-				if(mineCount > (boardRow * boardCol) - 1|| mineCount < 1)
+
+			try {
+				if (inputMineCount.length() > 0) {
+					mineCount = Integer.parseInt(inputMineCount);
+					if (mineCount > (boardRow * boardCol) - 1 || mineCount < 1)
+						throw new IllegalArgumentException();
+				}else
 					throw new IllegalArgumentException();
 			}
 			catch(IllegalArgumentException e){
@@ -193,4 +199,3 @@ public class MineSweeperGame {
 		}
 
 	}
-}
