@@ -13,6 +13,8 @@ public class MineSweeperGame {
 	private int boardRow;
 	private String inputCol;
 	private int boardCol;
+	private int numWins = 0;
+	private int numLosses = 0;
 
 	public int getMineCount() {
 		return mineCount;
@@ -24,6 +26,14 @@ public class MineSweeperGame {
 
 	public int getBoardCol() {
 		return boardCol;
+	}
+
+	public int getNumWins() {
+		return numWins;
+	}
+
+	public int getNumLosses() {
+		return numLosses;
 	}
 
 	public MineSweeperGame() {
@@ -48,9 +58,9 @@ public class MineSweeperGame {
 
 	public void select(int row, int col) {
 		Cell iCell = board[row][col];
-		if(!iCell.isFlagged() && !iCell.isExposed()) {
+		if (!iCell.isFlagged() && !iCell.isExposed()) {
 			iCell.setExposed(true);
-//
+
 //			if (calcCounter(row, col) == 0) {
 //					for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 //						for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
@@ -62,14 +72,14 @@ public class MineSweeperGame {
 			int temprow = row;
 			int tempcol = col;
 
-			while( temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
+			while (temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
 
 				board[temprow][tempcol].setExposed(true);
 				temprow++;
 			}
 			temprow--;
 
-			while(tempcol < boardCol && calcCounter(temprow, tempcol) == 0){
+			while (tempcol < boardCol && calcCounter(temprow, tempcol) == 0) {
 
 				board[temprow][tempcol].setExposed(true);
 				tempcol++;
@@ -77,7 +87,7 @@ public class MineSweeperGame {
 
 			tempcol--;
 
-			while(temprow > 0 && calcCounter(temprow , tempcol) == 0) {
+			while (temprow > 0 && calcCounter(temprow, tempcol) == 0) {
 
 				board[temprow][tempcol].setExposed(true);
 				temprow--;
@@ -85,7 +95,7 @@ public class MineSweeperGame {
 
 			temprow++;
 
-			while(tempcol > 0 && calcCounter(temprow, tempcol) == 0){
+			while (tempcol > 0 && calcCounter(temprow, tempcol) == 0) {
 
 				board[temprow][tempcol].setExposed(true);
 				tempcol--;
@@ -94,15 +104,17 @@ public class MineSweeperGame {
 			tempcol++;
 
 
-
 		}
 
-		if (board[row][col].isMine())   // did I lose
+		if (board[row][col].isMine()) {  // did I lose
 			status = GameStatus.Lost;
-		else if (!allFound())
+			numLosses++;
+		} else if (!allFound())
 			status = GameStatus.NotOverYet;
-		else
-			status = GameStatus.WON;    // did I win
+		else {
+			status = GameStatus.WON; // did I win
+			numWins++;
+		}
 	}
 
 	public boolean allFound(){
