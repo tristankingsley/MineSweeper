@@ -7,6 +7,8 @@ public class Cell {
     private boolean isFlagged;
     private String flag;
 
+    //HERRRRROOOOOOOOOO!!!!!!!
+
     int boundup = 1;
     int bounddown = 1;
     int boundleft = 1;
