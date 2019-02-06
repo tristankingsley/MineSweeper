@@ -15,6 +15,8 @@ public class MineSweeperPanel extends JPanel {
 	private JMenuItem newGameItem;
 	private JMenuItem resizeItem;
 	private JMenuItem quitItem;
+	private JLabel wins;
+	private JLabel losses;
 
 
 	private JButton[][] board;
@@ -24,7 +26,6 @@ public class MineSweeperPanel extends JPanel {
 	private MineSweeperGame game;  // model
 
 	public MineSweeperPanel() {
-
 
 		JPanel bottom = new JPanel();
 		JPanel center = new JPanel();
@@ -48,12 +49,17 @@ public class MineSweeperPanel extends JPanel {
 				center.add(board[row][col]);
 			}
 
+		wins = new JLabel("WINS: ");
+		losses = new JLabel("LOSSES: ");
+
 		displayBoard();
 
 		bottom.setLayout(new GridLayout(3, 2));
 
 		// add all to contentPane
 		add(new JLabel("!!!!!!  Mine Sweeper  !!!!"), BorderLayout.NORTH);
+		add(wins, BorderLayout.NORTH);
+		add(losses, BorderLayout.NORTH);
 		add(center, BorderLayout.CENTER);
 		add(bottom, BorderLayout.SOUTH);
 
@@ -100,6 +106,9 @@ public class MineSweeperPanel extends JPanel {
 
 
 	private void displayBoard() {
+
+		wins.setText("WINS: " + game.getNumWins());
+		losses.setText("LOSSES: " + game.getNumLosses());
 
 		for(int r = 0; r < 30; r++) {
 			for (int c = 0; c < 30; c++)
