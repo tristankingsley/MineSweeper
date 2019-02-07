@@ -5,9 +5,6 @@ public class Cell {
     private boolean isMine;
     private boolean test;
     private boolean isFlagged;
-    private String flag;
-
-    //HERRRRROOOOOOOOOO!!!!!!!
 
     int boundup = 1;
     int bounddown = 1;
@@ -28,10 +25,6 @@ public class Cell {
         isExposed = exposed;
         isMine = mine;
     }
-
-    public void setFlag(String flag){ this.flag = flag; }
-
-    public String setFlag() { return flag; }
 
     public boolean isExposed() {
         return isExposed;
