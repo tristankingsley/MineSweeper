@@ -58,7 +58,7 @@ public class MineSweeperGame {
 
 	public void select(int row, int col) {
 		Cell iCell = board[row][col];
-		if (!iCell.isFlagged() && !iCell.isExposed()) {
+		if (!iCell.isFlagged() && !iCell.isExposed() && !iCell.isMine()) {
 //			iCell.setExposed(true);
 
 //			if (calcCounter(row, col) == 0) {
@@ -76,7 +76,7 @@ public class MineSweeperGame {
 					int tempcol = c;
 
 
-					while (tempcol < boardCol && calcCounter(temprow, tempcol) == 0) {
+					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 						board[temprow][tempcol].setExposed(true);
 						tempcol++;
@@ -84,7 +84,7 @@ public class MineSweeperGame {
 
 					tempcol = col;
 
-					while (temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
+					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 						board[temprow][tempcol].setExposed(true);
 						temprow++;
@@ -100,7 +100,7 @@ public class MineSweeperGame {
 					int tempcol = c;
 
 
-					while (temprow > 0 && calcCounter(temprow, tempcol) == 0){
+					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
 
 						temprow--;
 						board[temprow][tempcol].setExposed(true);
@@ -108,7 +108,7 @@ public class MineSweeperGame {
 
 					temprow = row;
 
-					while (tempcol > 0 && calcCounter(temprow, tempcol) == 0){
+					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
 
 						tempcol--;
 						board[temprow][tempcol].setExposed(true);
@@ -126,7 +126,7 @@ public class MineSweeperGame {
 					int tempcol = c;
 
 
-					while (tempcol < boardCol && calcCounter(temprow, tempcol) == 0) {
+					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 						board[temprow][tempcol].setExposed(true);
 						tempcol++;
@@ -134,7 +134,7 @@ public class MineSweeperGame {
 
 					tempcol = col;
 
-					while (temprow > 0 && calcCounter(temprow, tempcol) == 0) {
+					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 						temprow--;
 						board[temprow][tempcol].setExposed(true);
@@ -150,7 +150,7 @@ public class MineSweeperGame {
 					int tempcol = c;
 
 
-					while (tempcol > 0 && calcCounter(temprow, tempcol) == 0) {
+					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 						tempcol--;
 						board[temprow][tempcol].setExposed(true);
@@ -158,7 +158,7 @@ public class MineSweeperGame {
 
 					tempcol = col;
 
-					while (temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
+					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 						board[temprow][tempcol].setExposed(true);
 						temprow++;
@@ -166,7 +166,7 @@ public class MineSweeperGame {
 					temprow = row;
 				}
 			}
-		}
+		} 
 
 		if (board[row][col].isMine()) {  // did I lose
 			status = GameStatus.Lost;
