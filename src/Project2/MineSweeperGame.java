@@ -59,49 +59,57 @@ public class MineSweeperGame {
 	public void select(int row, int col) {
 		Cell iCell = board[row][col];
 		if (!iCell.isFlagged() && !iCell.isExposed()) {
-			iCell.setExposed(true);
+//			iCell.setExposed(true);
 
 //			if (calcCounter(row, col) == 0) {
-//					for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
-//						for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
-//							if (!board[r][c].isMine())
-//								select(r,c);
-//						}
-//				}
+//				for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+//					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+//						if (!board[r][c].isMine())
+//							select(r,c);
+//					}
+//			}
 
-			int temprow = row;
-			int tempcol = col;
+			for (int r = row; r < boardRow; r++) {
+				for (int c = col; c < boardCol; c++) {
 
-			while (temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
+					int temprow = r;
+					int tempcol = c;
 
-				board[temprow][tempcol].setExposed(true);
-				temprow++;
-			}
-			temprow--;
 
-			while (tempcol < boardCol && calcCounter(temprow, tempcol) == 0) {
+					while (tempcol < boardCol && calcCounter(temprow, tempcol) == 0) {
 
-				board[temprow][tempcol].setExposed(true);
-				tempcol++;
-			}
+						board[temprow][tempcol].setExposed(true);
+						tempcol++;
+					}
 
-			tempcol--;
+					tempcol = col;
 
-			while (temprow > 0 && calcCounter(temprow, tempcol) == 0) {
+					while (temprow < boardRow && calcCounter(temprow, tempcol) == 0) {
 
-				board[temprow][tempcol].setExposed(true);
-				temprow--;
-			}
-
-			temprow++;
-
-			while (tempcol > 0 && calcCounter(temprow, tempcol) == 0) {
-
-				board[temprow][tempcol].setExposed(true);
-				tempcol--;
+						board[temprow][tempcol].setExposed(true);
+						temprow++;
+					}
+					temprow = row;
+				}
 			}
 
-			tempcol++;
+
+
+//			while (tempcol > 0 && calcCounter(temprow, tempcol) == 0) {
+//
+//				board[temprow][tempcol].setExposed(true);
+//				tempcol--;
+//			}
+//
+//			tempcol = col;
+//
+//			while (temprow > 0 && calcCounter(temprow, tempcol) == 0) {
+//
+//				board[temprow][tempcol].setExposed(true);
+//				temprow--;
+//			}
+//
+//			temprow = row;
 
 
 		}
