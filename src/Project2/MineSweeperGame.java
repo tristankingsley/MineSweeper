@@ -93,25 +93,33 @@ public class MineSweeperGame {
 				}
 			}
 
+			for (int r = row; r > 0; r--) {
+				for (int c = col; c > 0; c--) {
 
+					int temprow = r;
+					int tempcol = c;
 
-//			while (tempcol > 0 && calcCounter(temprow, tempcol) == 0) {
-//
-//				board[temprow][tempcol].setExposed(true);
-//				tempcol--;
-//			}
-//
-//			tempcol = col;
-//
-//			while (temprow > 0 && calcCounter(temprow, tempcol) == 0) {
-//
-//				board[temprow][tempcol].setExposed(true);
-//				temprow--;
-//			}
-//
-//			temprow = row;
+					if (!iCell.isMine())
+						board[temprow][tempcol].setExposed(true);
 
+					while (temprow > 0 && calcCounter(temprow, tempcol) == 0){
 
+						temprow--;
+						board[temprow][tempcol].setExposed(true);
+					}
+
+					temprow = row;
+
+					while (tempcol > 0 && calcCounter(temprow, tempcol) == 0){
+
+						tempcol--;
+						board[temprow][tempcol].setExposed(true);
+					}
+
+					tempcol = col;
+
+				}
+			}
 		}
 
 		if (board[row][col].isMine()) {  // did I lose
