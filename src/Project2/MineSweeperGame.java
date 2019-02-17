@@ -69,106 +69,54 @@ public class MineSweeperGame {
 //					}
 //			}
 
-			for (int r = row; r < boardRow; r++) {
-				for (int c = col; c < boardCol; c++) {
+            for (int c = col; c < boardCol; c++) {
+                int temprow = row;
+                int tempcol = c;
 
-					int temprow = r;
-					int tempcol = c;
-
-
-					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+                while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
 
-						board[temprow][tempcol].setExposed(true);
-						temprow++;
-					}
-					
-					temprow = row;
-
-					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+                    board[temprow][tempcol].setExposed(true);
+                    temprow++;
+                }
+            }
 
 
-					    board[temprow][tempcol].setExposed(true);
-					    tempcol++;
-
-					}
-
-					tempcol = col;
-				}
-			}
-
-//			for (int r = row; r >= 0; r--) {
-//				for (int c = col; c >= 0; c--) {
+//			for (int c = col; c >= 0; c--) {
 //
-//					int temprow = r;
-//					int tempcol = c;
+//				int temprow = row;
+//				int tempcol = c;
 //
 //
-//					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
+//				while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
 //
-//						temprow--;
-//						board[temprow][tempcol].setExposed(true);
-//					}
-//
-//					temprow = row;
-//
-//					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
-//
-//						tempcol--;
-//						board[temprow][tempcol].setExposed(true);
-//					}
-//
-//					tempcol = col;
-//
+//					temprow--;
+//					board[temprow][tempcol].setExposed(true);
 //				}
 //			}
 //
-//			for (int r = row; r >= 0; r--) {
-//				for (int c = col; c < boardCol; c++) {
+//			for (int c = col; c < boardCol; c++) {
 //
-//					int temprow = r;
-//					int tempcol = c;
+//				int temprow = row;
+//				int tempcol = c;
 //
 //
-//					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+//				while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 //
-//						temprow--;
-//						board[temprow][tempcol].setExposed(true);
-//					}
-//
-//					temprow = row;
-//
-//					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-//
-//						board[temprow][tempcol].setExposed(true);
-//						tempcol++;
-//					}
-//
-//					tempcol = col;
+//					temprow--;
+//					board[temprow][tempcol].setExposed(true);
 //				}
 //			}
 //
-//			for (int r = row; r < boardRow; r++) {
-//				for (int c = col; c >= 0; c--) {
+//			for (int c = col; c >= 0; c--) {
 //
-//					int temprow = r;
-//					int tempcol = c;
+//				int temprow = row;
+//				int tempcol = c;
 //
-// 					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+// 				while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 //
-//						board[temprow][tempcol].setExposed(true);
-//						temprow++;
-//					}
-//
-//					temprow = row;
-//
-//					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-//
-//						tempcol--;
-//						board[temprow][tempcol].setExposed(true);
-//					}
-//
-//					tempcol = col;
+//					board[temprow][tempcol].setExposed(true);
+//					temprow++;
 //				}
 //			}
 		}
