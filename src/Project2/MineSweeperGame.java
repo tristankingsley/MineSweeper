@@ -60,7 +60,7 @@ public class MineSweeperGame {
 		Cell iCell = board[row][col];
 		if (!iCell.isFlagged() && !iCell.isExposed() && !iCell.isMine()) {
 //			iCell.setExposed(true);
-
+//
 //			if (calcCounter(row, col) == 0) {
 //				for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 //					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
@@ -76,97 +76,102 @@ public class MineSweeperGame {
 					int tempcol = c;
 
 
-					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-
-						board[temprow][tempcol].setExposed(true);
-						tempcol++;
-					}
-
-					tempcol = col;
-
 					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+
 
 						board[temprow][tempcol].setExposed(true);
 						temprow++;
 					}
+					
 					temprow = row;
-				}
-			}
-
-			for (int r = row; r >= 0; r--) {
-				for (int c = col; c >= 0; c--) {
-
-					int temprow = r;
-					int tempcol = c;
-
-
-					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
-
-						temprow--;
-						board[temprow][tempcol].setExposed(true);
-					}
-
-					temprow = row;
-
-					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
-
-						tempcol--;
-						board[temprow][tempcol].setExposed(true);
-					}
-
-					tempcol = col;
-
-				}
-			}
-
-			for (int r = row; r >= 0; r--) {
-				for (int c = col; c < boardCol; c++) {
-
-					int temprow = r;
-					int tempcol = c;
-
 
 					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
 
-						board[temprow][tempcol].setExposed(true);
-						tempcol++;
+
+					    board[temprow][tempcol].setExposed(true);
+					    tempcol++;
+
 					}
 
 					tempcol = col;
-
-					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-
-						temprow--;
-						board[temprow][tempcol].setExposed(true);
-					}
-					temprow = row;
 				}
 			}
 
-			for (int r = row; r < boardRow; r++) {
-				for (int c = col; c >= 0; c--) {
-
-					int temprow = r;
-					int tempcol = c;
-
-
-					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-
-						tempcol--;
-						board[temprow][tempcol].setExposed(true);
-					}
-
-					tempcol = col;
-
-					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-
-						board[temprow][tempcol].setExposed(true);
-						temprow++;
-					}
-					temprow = row;
-				}
-			}
-		} 
+//			for (int r = row; r >= 0; r--) {
+//				for (int c = col; c >= 0; c--) {
+//
+//					int temprow = r;
+//					int tempcol = c;
+//
+//
+//					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
+//
+//						temprow--;
+//						board[temprow][tempcol].setExposed(true);
+//					}
+//
+//					temprow = row;
+//
+//					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
+//
+//						tempcol--;
+//						board[temprow][tempcol].setExposed(true);
+//					}
+//
+//					tempcol = col;
+//
+//				}
+//			}
+//
+//			for (int r = row; r >= 0; r--) {
+//				for (int c = col; c < boardCol; c++) {
+//
+//					int temprow = r;
+//					int tempcol = c;
+//
+//
+//					while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+//
+//						temprow--;
+//						board[temprow][tempcol].setExposed(true);
+//					}
+//
+//					temprow = row;
+//
+//					while (tempcol < boardCol && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+//
+//						board[temprow][tempcol].setExposed(true);
+//						tempcol++;
+//					}
+//
+//					tempcol = col;
+//				}
+//			}
+//
+//			for (int r = row; r < boardRow; r++) {
+//				for (int c = col; c >= 0; c--) {
+//
+//					int temprow = r;
+//					int tempcol = c;
+//
+// 					while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+//
+//						board[temprow][tempcol].setExposed(true);
+//						temprow++;
+//					}
+//
+//					temprow = row;
+//
+//					while (tempcol > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
+//
+//						tempcol--;
+//						board[temprow][tempcol].setExposed(true);
+//					}
+//
+//					tempcol = col;
+//				}
+//			}
+		}
 
 		if (board[row][col].isMine()) {  // did I lose
 			status = GameStatus.Lost;
