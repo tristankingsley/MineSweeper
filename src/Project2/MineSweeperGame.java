@@ -96,12 +96,16 @@ public class MineSweeperGame {
 //			}
 			if(calcCounter(row, col) == 0) {
 				/**NonRecursive**/
-				int limit = 0;
+				int limit;
 				if (boardRow > boardCol)
 					limit = boardRow;
 				else
 					limit = boardCol;
 
+				if(limit == boardRow)
+					limit = boardRow - row;
+				else
+					limit = boardCol - col;
 
 				for (int n = 0; n < limit; n++) {
 					for (int i = 0; i < boardRow; i++)
