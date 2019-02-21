@@ -56,11 +56,37 @@ public class MineSweeperGame {
 		return board[row][col];
 	}
 
+	public void select8(int row, int col){
+		Cell iCell = board[row][col];
+		for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++)
+						board[r][c].setExposed(true);
+	}
+
+
+	public boolean exposedNeighbor(int row, int col){
+		Cell iCell = board[row][col];
+		int check = 0;
+
+		for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+			for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++)
+				if(board[r][c].isExposed() && calcCounter(r, c) == 0)
+					check++;
+
+		if(check == 0)
+			return false;
+		else
+			return true;
+
+	}
+
+
 	public void select(int row, int col) {
 		Cell iCell = board[row][col];
 		if (!iCell.isFlagged() && !iCell.isExposed() && !iCell.isMine()) {
-//			iCell.setExposed(true);
-//
+			iCell.setExposed(true);
+
+			/**Recursive**/
 //			if (calcCounter(row, col) == 0) {
 //				for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 //					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
@@ -68,65 +94,20 @@ public class MineSweeperGame {
 //							select(r,c);
 //					}
 //			}
-
-            for (int c = col; c < boardCol; c++) {
-
-                int temprow = row;
-                int tempcol = c;
-
-                while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-
-					if (!board[temprow][tempcol].isMine()) {
-						board[temprow][tempcol].setExposed(true);
-						temprow++;
-					} else
-						temprow = boardRow;
-                }
-            }
+			if(calcCounter(row, col) == 0) {
+				/**NonRecursive**/
+				int limit = 0;
+				if (boardRow > boardCol)
+					limit = boardRow;
+				else
+					limit = boardCol;
 
 
-			for (int c = col; c >= 0; c--) {
-
-				int temprow = row;
-				int tempcol = c;
-
-				while (temprow > 0 && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()){
-
-					temprow--;
-					if (!board[temprow][tempcol].isMine())
-						board[temprow][tempcol].setExposed(true);
-					else
-						temprow = 0;
-				}
-			}
-
-			for (int c = col; c < boardCol; c++) {
-
-				int temprow = row;
-				int tempcol = c;
-
-				while (temprow > 0 && calcCounter(temprow, tempcol) >= 0) {
-
-					temprow--;
-					if (!board[temprow][tempcol].isMine())
-						board[temprow][tempcol].setExposed(true);
-					else
-						temprow = 0;
-				}
-			}
-
-			for (int c = col; c >= 0; c--) {
-
-				int temprow = row;
-				int tempcol = c;
-
- 				while (temprow < boardRow && calcCounter(temprow, tempcol) >= 0 && !iCell.isMine()) {
-
-					if (!board[temprow][tempcol].isMine()){
-						board[temprow][tempcol].setExposed(true);
-						temprow++;
-					} else
-						temprow = boardRow;
+				for (int n = 0; n < limit; n++) {
+					for (int i = 0; i < boardRow; i++)
+						for (int g = 0; g < boardCol; g++)
+							if (exposedNeighbor(i, g) && calcCounter(i, g) == 0)
+								select8(i, g);
 				}
 			}
 		}
@@ -233,13 +214,13 @@ public class MineSweeperGame {
 
 
 		try {
-				if (inputRow.length() > 0) {
-					boardRow = Integer.parseInt(inputRow);
-					if(boardRow > 30 || boardRow < 3)
+			if (inputRow.length() > 0) {
+				boardRow = Integer.parseInt(inputRow);
+				if(boardRow > 30 || boardRow < 3)
 					throw new IllegalArgumentException();
 			}
-				else
-					throw new IllegalArgumentException();
+			else
+				throw new IllegalArgumentException();
 		}
 		catch (IllegalArgumentException e) {
 			boardRow = 10;
@@ -255,21 +236,21 @@ public class MineSweeperGame {
 				throw new IllegalArgumentException();
 		}
 		catch(IllegalArgumentException e){
-				boardCol = 10;
-			}
-
-
-			try {
-				if (inputMineCount.length() > 0) {
-					mineCount = Integer.parseInt(inputMineCount);
-					if (mineCount > (boardRow * boardCol) - 1 || mineCount < 1)
-						throw new IllegalArgumentException();
-				}else
-					throw new IllegalArgumentException();
-			}
-			catch(IllegalArgumentException e){
-				mineCount = 10;
-			}
+			boardCol = 10;
 		}
 
+
+		try {
+			if (inputMineCount.length() > 0) {
+				mineCount = Integer.parseInt(inputMineCount);
+				if (mineCount > (boardRow * boardCol) - 1 || mineCount < 1)
+					throw new IllegalArgumentException();
+			}else
+				throw new IllegalArgumentException();
+		}
+		catch(IllegalArgumentException e){
+			mineCount = 10;
+		}
 	}
+
+}
