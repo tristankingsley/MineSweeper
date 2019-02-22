@@ -60,7 +60,8 @@ public class MineSweeperGame {
 		Cell iCell = board[row][col];
 		for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++)
-						board[r][c].setExposed(true);
+						if(!board[r][c].isFlagged())
+							board[r][c].setExposed(true);
 	}
 
 
@@ -102,16 +103,13 @@ public class MineSweeperGame {
 				else
 					limit = boardCol;
 
-				if(limit == boardRow)
-					limit = boardRow - row;
-				else
-					limit = boardCol - col;
-
 				for (int n = 0; n < limit; n++) {
 					for (int i = 0; i < boardRow; i++)
 						for (int g = 0; g < boardCol; g++)
-							if (exposedNeighbor(i, g) && calcCounter(i, g) == 0)
+							if (exposedNeighbor(i, g) && calcCounter(i, g) == 0 && !board[i][g].isFlagged()) {
 								select8(i, g);
+
+							}
 				}
 			}
 		}
