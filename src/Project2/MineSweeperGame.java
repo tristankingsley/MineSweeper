@@ -88,30 +88,30 @@ public class MineSweeperGame {
 			iCell.setExposed(true);
 
 			/**Recursive**/
-//			if (calcCounter(row, col) == 0) {
-//				for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
-//					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
-//						if (!board[r][c].isMine())
-//							select(r,c);
-//					}
-//			}
-			if(calcCounter(row, col) == 0) {
-				/**NonRecursive**/
-				int limit;
-				if (boardRow > boardCol)
-					limit = boardRow;
-				else
-					limit = boardCol;
-
-				for (int n = 0; n < limit; n++) {
-					for (int i = 0; i < boardRow; i++)
-						for (int g = 0; g < boardCol; g++)
-							if (exposedNeighbor(i, g) && calcCounter(i, g) == 0 && !board[i][g].isFlagged()) {
-								select8(i, g);
-
-							}
-				}
+			if (calcCounter(row, col) == 0) {
+				for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
+					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+						if (!board[r][c].isMine())
+							select(r,c);
+					}
 			}
+//			if(calcCounter(row, col) == 0) {
+//				/**NonRecursive**/
+//				int limit;
+//				if (boardRow > boardCol)
+//					limit = boardRow;
+//				else
+//					limit = boardCol;
+//
+//				for (int n = 0; n < limit; n++) {
+//					for (int i = 0; i < boardRow; i++)
+//						for (int g = 0; g < boardCol; g++)
+//							if (exposedNeighbor(i, g) && calcCounter(i, g) == 0 && !board[i][g].isFlagged()) {
+//								select8(i, g);
+//
+//							}
+//				}
+//			}
 		}
 
 		if (board[row][col].isMine()) {  // did I lose

@@ -44,6 +44,8 @@ public class MineSweeperPanel extends JPanel {
 		for (int row = 0; row < game.getBoardRow(); row++)
 			for (int col = 0; col < game.getBoardCol(); col++) {
 				board[row][col] = new JButton("");
+				board[row][col].setMargin(new Insets(0,0,0,0));
+				board[row][col].setFont(new Font("Ariel", Font.PLAIN, 15));
 				board[row][col].addActionListener(listener);
 				board[row][col].addMouseListener(mouse);
 				center.add(board[row][col]);
