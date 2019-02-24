@@ -11,12 +11,12 @@ public class MineSweeperGUI {
 		JFrame frame = new JFrame ("Mine Sweeper!");
 		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		MineSweeperPanel panel = new MineSweeperPanel();
-		JScrollPane container = new JScrollPane(panel);
+		//JScrollPane container = new JScrollPane(panel);
 		frame.setJMenuBar(panel.addMenuBar());
-		frame.getContentPane().add(container);
-		frame.setSize(800, 500);
+		frame.getContentPane().add(panel);
+		frame.setSize(900, 700);
 		frame.setVisible(true);
-		frame.setLocation(200,150);
+		frame.setLocation(150,30);
 	}
 }
 
