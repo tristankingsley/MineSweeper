@@ -38,11 +38,11 @@ public class MineSweeperPanel extends JPanel {
 		game = new MineSweeperGame();
 
 		// create the board
-		center.setLayout(new GridLayout(30, 30));
-		board = new JButton[30][30];
+		center.setLayout(new GridLayout(game.getBoardRow(), game.getBoardCol()));
+		board = new JButton[game.getBoardRow()][game.getBoardCol()];
 
-		for (int row = 0; row < 30; row++)
-			for (int col = 0; col < 30; col++) {
+		for (int row = 0; row < game.getBoardRow(); row++)
+			for (int col = 0; col < game.getBoardCol(); col++) {
 				board[row][col] = new JButton("");
 				board[row][col].addActionListener(listener);
 				board[row][col].addMouseListener(mouse);
@@ -58,10 +58,11 @@ public class MineSweeperPanel extends JPanel {
 
 		// add all to contentPane
 		add(new JLabel("!!!!!!  Mine Sweeper  !!!!"), BorderLayout.NORTH);
-		add(wins, BorderLayout.NORTH);
-		add(losses, BorderLayout.NORTH);
+		add(wins, BorderLayout.SOUTH);
+		add(losses, BorderLayout.SOUTH);
 		add(center, BorderLayout.CENTER);
 		add(bottom, BorderLayout.SOUTH);
+
 
 	}
 
@@ -110,10 +111,10 @@ public class MineSweeperPanel extends JPanel {
 		wins.setText("WINS: " + game.getNumWins());
 		losses.setText("LOSSES: " + game.getNumLosses());
 
-		for(int r = 0; r < 30; r++) {
-			for (int c = 0; c < 30; c++)
-				board[r][c].setVisible(false);
-		}
+//		for(int r = 0; r < game.getBoardRow(); r++) {
+//			for (int c = 0; c < game.getBoardCol(); c++)
+//				board[r][c].setVisible(false);
+//		}
 
 
 		for (int r = 0; r < game.getBoardRow(); r++)
