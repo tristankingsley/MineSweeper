@@ -47,6 +47,7 @@ public class MineSweeperPanel extends JPanel {
 				board[row][col].addActionListener(listener);
 				board[row][col].addMouseListener(mouse);
 				center.add(board[row][col]);
+				board[row][col].setPreferredSize(new Dimension(25, 20));
 			}
 
 		wins = new JLabel("WINS: ");
