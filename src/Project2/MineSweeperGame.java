@@ -41,7 +41,6 @@ public class MineSweeperGame {
 		status = GameStatus.NotOverYet;
 		board = new Cell[boardRow][boardCol];
 		setEmpty();
-		layMines (mineCount);
 		setBounds();
 
 	}
@@ -81,11 +80,38 @@ public class MineSweeperGame {
 
 	}
 
+	public boolean allHidden(){
+	    int counter = 0;
+
+        for (int r = 0; r < boardRow; r++)
+            for (int c = 0; c < boardCol; c++){
+
+                if (calcCounter(r, c) == 0 || board[r][c].isMine())
+                    board[r][c].setProx("");
+                else
+                    board[r][c].setProx("" + calcCounter(r, c));
+
+                if (!board[r][c].isExposed())
+                    counter++;
+                }
+
+        if(counter == ((boardRow * boardCol) - 1))
+	        return true;
+	    else
+	        return false;
+    }
 
 	public void select(int row, int col) {
 		Cell iCell = board[row][col];
+
 		if (!iCell.isFlagged() && !iCell.isExposed() && !iCell.isMine()) {
 			iCell.setExposed(true);
+
+            if(allHidden()) {
+                layMines(mineCount);
+
+
+            }
 
 			/**Recursive**/
 			if (calcCounter(row, col) == 0) {
@@ -149,10 +175,7 @@ public class MineSweeperGame {
 					board[r][c].boundright = 0;
 				}
 
-				if(calcCounter(r,c) == 0 || board[r][c].isMine())
-					board[r][c].setProx("");
-				else
-					board[r][c].setProx("" + calcCounter(r, c));
+
 
 			}
 	}
@@ -178,7 +201,7 @@ public class MineSweeperGame {
 		status = GameStatus.NotOverYet;
 		board = new Cell[boardRow][boardCol];
 		setEmpty();
-		layMines (mineCount);
+
 		setBounds();
 	}
 
@@ -190,7 +213,7 @@ public class MineSweeperGame {
 			int c = random.nextInt(boardCol);
 			int r = random.nextInt(boardRow);
 
-			if (!board[r][c].isMine()) {
+			if (!board[r][c].isExposed() && !board[r][c].isMine()) {
 				board[r][c].setMine(true);
 				i++;
 			}

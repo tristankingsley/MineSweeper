@@ -132,7 +132,10 @@ public class MineSweeperPanel extends JPanel {
 					board[r][c].setText("");
 				if (iCell.isExposed() && !iCell.isMine()) {
 					board[r][c].setEnabled(false);
-					board[r][c].setText(iCell.getProx());
+					if(game.calcCounter(r,c) != 0)
+						board[r][c].setText("" + game.calcCounter(r,c));
+					else
+						board[r][c].setText("");
 				} else
 					board[r][c].setEnabled(true);
 			}
