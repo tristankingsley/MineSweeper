@@ -2,6 +2,7 @@ package Project2;
 
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +16,10 @@ public class MineSweeperPanel extends JPanel {
 	private JMenuItem newGameItem;
 	private JMenuItem resizeItem;
 	private JMenuItem quitItem;
+	private JButton quitButton;
 	private JLabel wins;
 	private JLabel losses;
+	private JLabel title;
 
 
 	private JButton[][] board;
@@ -29,6 +32,9 @@ public class MineSweeperPanel extends JPanel {
 
 		JPanel bottom = new JPanel();
 		JPanel center = new JPanel();
+		JPanel top = new JPanel();
+
+
 
 		// create game, listeners
 		ButtonListener listener = new ButtonListener();
@@ -41,6 +47,8 @@ public class MineSweeperPanel extends JPanel {
 		center.setLayout(new GridLayout(game.getBoardRow(), game.getBoardCol()));
 		board = new JButton[game.getBoardRow()][game.getBoardCol()];
 
+		int overall = game.getBoardRow() * game.getBoardCol();
+
 		for (int row = 0; row < game.getBoardRow(); row++)
 			for (int col = 0; col < game.getBoardCol(); col++) {
 				board[row][col] = new JButton("");
@@ -49,64 +57,85 @@ public class MineSweeperPanel extends JPanel {
 				board[row][col].addActionListener(listener);
 				board[row][col].addMouseListener(mouse);
 				center.add(board[row][col]);
-				board[row][col].setPreferredSize(new Dimension(25, 20));
 			}
 
 		wins = new JLabel("WINS: ");
 		losses = new JLabel("LOSSES: ");
+		title = new JLabel("!!!!!!  Mine Sweeper  !!!!");
+
+		wins.setFont(new Font("Ariel",Font.PLAIN,20));
+		losses.setFont(new Font("Ariel", Font.PLAIN, 20));
+		title.setFont(new Font("Ariel", Font.PLAIN, 20));
+
+		quitButton = new JButton("Quit");
+		quitButton.addActionListener(listener);
 
 		displayBoard();
 
-		bottom.setLayout(new GridLayout(3, 2));
+		bottom.setLayout(new GridBagLayout());
+		GridBagConstraints position = new GridBagConstraints();
+		position.gridx = 0;
+		position.gridy = 0;
+		position.insets = new Insets(0,15,0,15);
+
+		bottom.add(wins, position);
+
+		position.gridx = 1;
+		bottom.add(losses, position);
+
+		position.gridx = 2;
+		bottom.add(quitButton, position);
 
 		// add all to contentPane
-		add(new JLabel("!!!!!!  Mine Sweeper  !!!!"), BorderLayout.NORTH);
-		add(wins, BorderLayout.SOUTH);
-		add(losses, BorderLayout.SOUTH);
+		top.add(title);
+		add(top, BorderLayout.PAGE_START);
+		top.setPreferredSize(new Dimension(800,30));
 		add(center, BorderLayout.CENTER);
-		add(bottom, BorderLayout.SOUTH);
+		center.setPreferredSize(new Dimension(800,500));
+		add(bottom, BorderLayout.PAGE_END);
+		bottom.setPreferredSize(new Dimension(800,30));
 
 
 	}
 
-	public JMenuBar addMenuBar(){
-		menus = new JMenuBar();
-
-		file = new JMenu("File");
-		menus.add(file);
-
-		newGameItem = new JMenuItem("New Game");
-		file.add(newGameItem);
-		newGameItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				game.reset();
-				displayBoard();
-			}
-		});
-
-		resizeItem = new JMenuItem("Board Size");
-		file.add(resizeItem);
-		resizeItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				game.resize();
-				game.reset();
-				displayBoard();
-			}
-		});
-
-		quitItem = new JMenuItem("Quit");
-		file.add(quitItem);
-		quitItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-
-		return menus;
-	}
+//	public JMenuBar addMenuBar(){
+//		menus = new JMenuBar();
+//
+//		file = new JMenu("File");
+//		menus.add(file);
+//
+//		newGameItem = new JMenuItem("New Game");
+//		file.add(newGameItem);
+//		newGameItem.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				game.reset();
+//				displayBoard();
+//			}
+//		});
+//
+//		resizeItem = new JMenuItem("Board Size");
+//		file.add(resizeItem);
+//		resizeItem.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				game.resize();
+//				game.reset();
+//				displayBoard();
+//			}
+//		});
+//
+//		quitItem = new JMenuItem("Quit");
+//		file.add(quitItem);
+//		quitItem.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				System.exit(0);
+//			}
+//		});
+//
+//		return menus;
+//	}
 
 
 	private void displayBoard() {
@@ -118,7 +147,6 @@ public class MineSweeperPanel extends JPanel {
 //			for (int c = 0; c < game.getBoardCol(); c++)
 //				board[r][c].setVisible(false);
 //		}
-
 
 		for (int r = 0; r < game.getBoardRow(); r++)
 			for (int c = 0; c < game.getBoardCol(); c++) {
