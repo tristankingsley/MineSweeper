@@ -1,9 +1,15 @@
 package Project2;
 
+/**********************************************************************
+ This class creates
+
+ @author Tristan Kingsley and Trevor Spitzley
+ @Version February 2019
+ *********************************************************************/
+
 public class Cell {
     private boolean isExposed;
     private boolean isMine;
-    private boolean test;
     private boolean isFlagged;
 
     int boundup = 1;
