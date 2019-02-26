@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class MineSweeperGame {
 
-	/** A 2-Dimensional array representing a minesweeper board**/
+	/** A 2-Dimensional array representing a minesweeper board **/
 	private Cell[][] board;
 
 	/** An instance of the GameStatus class **/
@@ -161,6 +161,7 @@ public class MineSweeperGame {
 	 Private helper method that checks the whole board to see if all
 	 but one cell has been selected.
 	 Used to trigger lay mines after first select.
+	 @return A boolen value depending on if it is the first click
 	 *****************************************************************/
 	private boolean allHidden(){
 	    int counter = 0;
@@ -185,29 +186,39 @@ public class MineSweeperGame {
 	 have 0 counts and the cells surrounding them are exposed as well.
 	 *****************************************************************/
 	public void select(int row, int col) {
+		// Creates local represenation of clicked cell
 		Cell iCell = board[row][col];
 
+		// If cell isn't flagged, exposed, or a mine, then set exposed
 		if (!iCell.isFlagged() && !iCell.isExposed() && !iCell.isMine()) {
 			iCell.setExposed(true);
 
-            if(allHidden())
+            // boolean method to trigger layMines after first click
+			if(allHidden())
                 layMines(mineCount);
 
 
 			/**Recursive**/
+			// If statement to determine if respective cell isn't surrounded
+			// by any mines
 //			if (calcCounter(row, col) == 0) {
 //				for (int r = row - iCell.boundup; r <= row + iCell.bounddown; r++)
 //					for (int c = col - iCell.boundleft; c <= col + iCell.boundright; c++) {
+//						// If selected cell isn't a mine, recursively run select method
 //						if (!board[r][c].isMine())
 //							select(r,c);
 //					}
 //			}
+			// If statement to determine number of bombs around cell
 			if(calcCounter(row, col) == 0) {
 				/**NonRecursive**/
 
+				// Triple-nested loop to fan outward from selected cell, exposing certain cells
 				for (int n = 0; n < boardRow; n++) {
 					for (int i = 0; i < boardRow; i++)
 						for (int g = 0; g < boardCol; g++)
+							// If no surrounding mines, not flagged, and exposedNeighbor returns true,
+							// run select8 method for respective cell
 							if (exposedNeighbor(i, g) && calcCounter(i, g) == 0 && !board[i][g].isFlagged()) {
 								select8(i, g);
 
@@ -217,6 +228,7 @@ public class MineSweeperGame {
 		}
 
 		//Checks to see if game has been won, lost or still being played
+		// as well as increments variables to express amount of wins/losses
 
 		if (board[row][col].isMine()) {
 			status = GameStatus.Lost;
@@ -228,6 +240,11 @@ public class MineSweeperGame {
 			numWins++;
 		}
 	}
+
+	/**********************************************************************
+	 * A method to determine if the game must go on or if the game is over
+	 * @return A boolean value
+	 *********************************************************************/
 
 	public boolean allFound(){
 		for (int r = 0; r < boardRow; r++)
