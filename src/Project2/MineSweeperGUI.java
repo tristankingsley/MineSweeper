@@ -10,6 +10,7 @@ import java.awt.*;
  @author Tristan Kingsley and Trevor Spitzley
  @Version February 2019
  *********************************************************************/
+
 public class MineSweeperGUI {
 
 	public static void main (String[] args)

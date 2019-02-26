@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
  @author Tristan Kingsley and Trevor Spitzley
  @Version February 2019
  *********************************************************************/
+
 public class MineSweeperPanel extends JPanel {
 
 	/** A JMenuBar to contain a JMenu */
@@ -25,26 +26,14 @@ public class MineSweeperPanel extends JPanel {
 	/** A JMenu to contain JMenuItems */
 	private JMenu file;
 
-	/** A JMenuItem to start a new game */
-	private JMenuItem newGameItem;
-
-	/** A JMenuItem to resize the board */
-	private JMenuItem resizeItem;
-
-	/** A JMenuItem to quit the game from the menu */
-	private JMenuItem quitItem;
+	/** A JMenuItem to for new game, board size, and quit game */
+	private JMenuItem newGameItem, resizeItem, quitItem;
 
 	/** A JButton to quit the game from main GUI panel */
 	private JButton quitButton;
 
-	/** A JLabel to show number of overall wins */
-	private JLabel wins;
-
-	/** A JLabel to show number of overall losses */
-	private JLabel losses;
-
-	/** A JLabel for the title of the game */
-	private JLabel title;
+	/** A JLabel to show number of overall wins/losses, and title label */
+	private JLabel wins, losses, title;
 
 	/** A JPanel divided into three respective sections */
 	private JPanel center, bottom, top;
@@ -216,7 +205,7 @@ public class MineSweeperPanel extends JPanel {
 
 	/**********************************************************************
 	* A private method used to change the dimensions of the game board
-	 * and update the the JButton sizes respectively to fit the frame
+	* and update the the JButton sizes respectively to fit the frame
 	**********************************************************************/
 	private void resizeBoard() {
 		// Clears panel of current JPanel to make room for new-sized ones
@@ -297,49 +286,64 @@ public class MineSweeperPanel extends JPanel {
 		add(bottom, BorderLayout.PAGE_END);
 		bottom.setPreferredSize(new Dimension(800,30));
 
-		// Revalidates new sizes and updates GUI
+		// Validates new sizes and updates GUI
 		revalidate();
 	}
 
+	/**********************************************************************
+	 * A private ButtonListener class that implements an ActionListener
+	 * to run the select method from our game class when clicking a cell
+	**********************************************************************/
 	private class ButtonListener implements ActionListener {
+
 
 		public void actionPerformed(ActionEvent e) {
 
+			// Runs the select method if the respective cell is clicked
 			for (int r = 0; r < game.getBoardRow(); r++)
 				for (int c = 0; c < game.getBoardCol(); c++)
 					if (board[r][c] == e.getSource())
 						game.select(r, c);
 
+			// Updates board to account for exposed cells
 			displayBoard();
-								
+
+			// After clicking, checks game status to see if you've lost
 			if (game.getGameStatus() == GameStatus.Lost) {
 				displayBoard();
-				JOptionPane.showMessageDialog(null, "You Lose \n The game will reset");
+				JOptionPane.showMessageDialog(null,
+						"You Lose \n The game will reset");
 				game.reset();
 				displayBoard();
 
 			}
 
+			// After clicking, checks game status to see if you've won
 			if (game.getGameStatus() == GameStatus.WON) {
-				JOptionPane.showMessageDialog(null, "You Win: all mines have been found!\n The game will reset");
+				JOptionPane.showMessageDialog(null,
+						"You Win: all mines have been found!" +
+								"\n The game will reset");
 				game.reset();
 				displayBoard();
 			}
 
-
+			// If statement for if the quit button is pressed
 			if (e.getSource() == quitButton){
 				System.exit(0);
 			}
 
+			// If statement for if the New Game button is pressed
 			if(e.getSource() == newGameItem){
 				game.reset();
 				displayBoard();
 			}
 
+			// If statement for if the quit button is pressed
 			if(e.getSource() == quitItem){
 				System.exit(0);
 			}
 
+			// If statement for if the board size button is pressed
 			if(e.getSource() == resizeItem){
 				resizeBoard();
 			}
@@ -348,6 +352,9 @@ public class MineSweeperPanel extends JPanel {
 
 	}
 
+	/**********************************************************************
+	 * A private MyMouseListener class that implements a MouseListener
+	 *********************************************************************/
 	private class MyMouseListener implements MouseListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -359,18 +366,28 @@ public class MineSweeperPanel extends JPanel {
 
 		}
 
+		/******************************************************************
+		 * Public method with no return that sets the text of the clicked
+		 * cell if it is being flagged or not flagged. Also changes back
+		 * to original text if flag is being removed
+		 *****************************************************************/
 		@Override
 		public void mouseReleased(MouseEvent e) {
+			// Scans board for clicked cell
 			for (int r = 0; r < game.getBoardRow(); r++) {
 				for (int c = 0; c < game.getBoardCol(); c++) {
+					// Checks if the cell was clicked with the right clicker
 					if (e.getSource() == board[r][c] && e.getButton() == MouseEvent.BUTTON3) {
+						// If not flagged, set text to 'F', boolean to true
 						if (!game.getCell(r, c).isFlagged()) {
 							board[r][c].setText("F");
 							game.getCell(r, c).setFlagged(true);
-						} else if (game.getCell(r, c).isFlagged() && game.getCell(r,c).isMine()) {
+						}// If flagged and a mine, sets text to '!' and false boolean
+						else if (game.getCell(r, c).isFlagged() && game.getCell(r,c).isMine()) {
 							board[r][c].setText("!");
 							game.getCell(r, c).setFlagged(false);
-						} else if (game.getCell(r,c).isFlagged() && !game.getCell(r,c).isMine()){
+						}// If flagged and not a mine, sets blank text and false boolean
+						else if (game.getCell(r,c).isFlagged() && !game.getCell(r,c).isMine()){
 							board[r][c].setText("");
 							game.getCell(r, c).setFlagged(false);
 						}
